@@ -1,0 +1,24 @@
+{
+      "name": "grupo3integrador25c2div132_back",
+      "version": "1.0.0",
+      "description": "",
+      "main": "index.js",
+      "type": "module",
+      "scripts": {
+            "dev": "nodemon index.js",
+            "test": "echo \"Error: no test specified\" && exit 1"
+      },
+      "repository": {
+            "type": "git",
+            "url": "git+https://github.com/Tadeo-Vazquez/grupo3Integrador25C2Div132_back.git"
+      },
+      "keywords": [],
+      "author": "Tadeo Vázquez y Emmanuel Martin",
+      "license": "ISC",
+      "dependencies": {
+            "dotenv": "^17.2.3",
+            "express": "^5.1.0",
+            "mysql2": "^3.15.3",
+            "nodemon": "^3.1.10"
+      }
+}
