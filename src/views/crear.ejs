@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Momo+Trust+Display&display=swap" rel="stylesheet">
+
+</head>
+<body>
+        <header>
+        <nav>
+            <ul>
+                <a href="index">
+                    <li>Ver</li>
+                </a>
+                <a href="consultar">
+                    <li>Consultar id</li>
+                </a>
+                <a href="crear">
+                    <li>Crear</li>
+                </a>
+                <a href="modificar">
+                    <li>Modificar</li>
+                </a>
+                <a href="eliminar">
+                    <li>Eliminar</li>
+                </a>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Crear producto</h1>
+        <form id="altaProductos-form" style="display: flex; flex-direction: column;">
+            <div>
+            <label for="nombre">Nombre</label>
+            <input type="text" name="nombre" id="nombre" class="inTransColor" required>
+            </div>
+            <div>
+            <label for="imagenProdForm">Imagen</label>
+            <input type="text" name="imagen" id="imagenProdForm" class="inTransColor" required>
+            </div>
+            <div>
+            <label for="catProducto">Categoria</label>
+            <select name="categoria" id="catProducto" class="inTransColor" required>
+                <option value="digital">DIGITAL</option>
+                <option value="fisico">FISICO</option>
+            </select>
+            </div>
+            <div>
+            <label for="precioProdForm">Precio</label>
+            <input type="number" name="precio" id="precioProdForm" class="inTransColor" required>
+            </div>
+            <input type="submit" value="Crear producto" id="boton-creaProd">
+        </form>
+        <section id="cont-mensaje-creado">
+        </section>
+        <section id="contenedor-productos"></section>
+    </main>
+
+    <script src="js/crear.js">
+        
+    </script>
+</body>
+</html>

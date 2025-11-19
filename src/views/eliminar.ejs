@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eliminar</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Momo+Trust+Display&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <a href="index">
+                    <li>Ver</li>
+                </a>
+                <a href="consultar">
+                    <li>Consultar id</li>
+                </a>
+                <a href="crear">
+                    <li>Crear</li>
+                </a>
+                <a href="modificar">
+                    <li>Modificar</li>
+                </a>
+                <a href="eliminar">
+                    <li>Eliminar</li>
+                </a>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Eliminar producto por ID</h1>
+        <form action="" id="getProductos-form">
+            <label for="idProd">ID del producto</label>
+            <input type="number" name="idProd" id="idProd" min="1">
+
+            <input type="submit" value="Consultar">
+        </form>
+        <hr>
+        <section id="contenedor-productos">
+            <ul id="listadoProductos"></ul>
+        </section>
+        <section id="contMensajeCreado">
+        </section>
+    </main>
+
+    <script src="js/eliminar.js">
+        
+
+        
+    </script>
+</body>
+</html>

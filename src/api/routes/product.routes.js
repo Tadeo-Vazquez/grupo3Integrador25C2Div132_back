@@ -19,4 +19,5 @@ router.put("/", modifyProduct)
 
 router.delete("/:id", validarId , removeProduct)
 
+
 export default router;
