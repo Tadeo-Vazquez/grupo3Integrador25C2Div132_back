@@ -1,101 +1,84 @@
 // imports
 import express from "express";
-const app = express();
-
 import environments from "./src/api/config/environments.js";
-const PORT = environments.port;
-
+import cors from "cors";
+import { loggerUrl } from "./src/api/middlewares/middlewares.js";
+import { rutasProductos } from "./src/api/routes/index.js";
+import { __dirname, join } from "./src/api/utils/index.js";
 import connection from "./src/api/database/db.js";
 
-import cors from "cors";
-app.use(cors());
 
-// app.use((req, res, next) =>{
-//     console.log(`[${new Date().toLocaleString()}] ${req.method} ${req.url}`);
-// })
+const app = express();
 
+const PORT = environments.port;
 
-app.use(express.json());
+app.use(cors())
 
-// endpoints
-app.get("/", (req, res) => {
-  res.send("TP INTEGRADOR");
-});
+// middleware logger (de aplicacion)
+app.use(loggerUrl)
 
+app.use(express.json())
 
+app.use(express.static(join(__dirname,"src","public")))
 
-//get all products
-app.get("/productos", async (req, res) => {
-  try {
-        const sql = "SELECT * from productos";
-        const [rows, fields] = await connection.query(sql);
+//configuracion
 
-        res.status(200).json({
-        payload: rows,
-        });
-  } catch (error) {
-        console.error("ERROR obteniendo productos: ", error.message);
-        res.status(500).json({
-        message: "Error interno al obtener productos",
-    });
-  }
-});
-
-//get product by id
-app.get("/productos/:id", async (req, res) => {
-  try {
-    //let id =req.params.id;
-        let { id } = req.params;
-
-        let sql = "SELECT * from productos WHERE productos.id = ?";
-
-        const [rows] = await connection.query(sql, [id]);
-
-        res.status(200).json({
-        payload: rows,
-    });
-  } catch (error) {
-        console.error("ERROR obteniendo producto por ID: ", error.message);
-        res.status(500).json({
-        message: "Error interno al obtener producto por ID",
-        error: error.message,
-    });
-  }
-});
+app.set("view engine", "ejs")
+app.set("views", join(__dirname,"src","views"))
 
 
-//crear nuevo producto
-app.post("/productos", async (req, res) =>{
+app.get("/index", async (req,res)=>{
     try{
+        const [rows] = await connection.query("SELECT * FROM productos")
 
-        let { nombre, img_url, tipo, precio } = req.body;
-
-        console.log(req.body);
-        console.log(`nombre prodcuto: ${nombre}`);
-
-        let sql = "INSERT INTO productos (nombre, img_url, tipo, precio) VALUES (?, ?, ?, ?)";
-
-        let [rows]= await connection.query(sql, [nombre, img_url, tipo, precio]);
-        console.log(rows);
-
-        res.status(201).json({
-            message: "Producto creado con exito!",
-        });
-
-    }catch (error){
-        console.log("error al crear producto: ", error);
-
-          res.status(500).json({
-            message:"error interno del servidor",
-            error: error.message
+        res.render("index",{
+            title:"Indice",
+            about:"Lista de productos",
+            products: rows
         })
 
+    }catch(error){
+        console.log(error);
+        
     }
 })
+app.get("/consultar",(req,res)=>{
+    res.render("consultar",{
+            title:"Consultar",
+            about:"Consultar producto por ID",
+        })
+})
+app.get("/crear",(req,res)=>{
+    res.render("crear")
+})
+app.get("/eliminar",(req,res)=>{
+    res.render("eliminar")
+})
+app.get("/modificar",(req,res)=>{
+    res.render("modificar")
+})
 
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en el puerto ${PORT}`);
-});
+
+
+
+
+
+// endpoints
+app.get("/", (req,res) => {
+    res.send("TP INTEGRADOR")
+})
+
+app.use("/api/productos", rutasProductos);
+
+
+
+
+
+
+app.listen(PORT, ()=>{
+    console.log(`Servidor corriendo en el puerto ${PORT}`);
+    
+})
 
 // ---------------------------------
 //http://localhost:3000/products
