@@ -33,7 +33,7 @@ form.addEventListener("submit", async event => {
 
 function mostrarProducto(p){
     let htmlProducto = `<li class="li-listados">
-                        <img src="https://nftcalendar.io/storage/uploads/2022/02/21/image-not-found_0221202211372462137974b6c1a.png" alt="${p.nombre}" class="img-listados">
+                        <img src="${p.img_url}" alt="${p.nombre}" class="img-listados">
                         <p>Id: ${p.id}</p>  <p>Nombre: ${p.nombre}</p>
                         <strong>Precio: $${p.precio}</strong>
                         </li>`;
