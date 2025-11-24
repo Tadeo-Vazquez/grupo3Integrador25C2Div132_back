@@ -49,13 +49,20 @@ app.get("/consultar",(req,res)=>{
         })
 })
 app.get("/crear",(req,res)=>{
-    res.render("crear")
+    res.render("crear",{
+            title:"Crear"
+        }
+        )
 })
 app.get("/eliminar",(req,res)=>{
-    res.render("eliminar")
+    res.render("eliminar",{
+            title:"Eliminar"
+        })
 })
 app.get("/modificar",(req,res)=>{
-    res.render("modificar")
+    res.render("modificar",{
+            title:"Modificar"
+        })
 })
 
 

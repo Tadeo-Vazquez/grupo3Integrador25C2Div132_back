@@ -1,37 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Momo+Trust+Display&display=swap" rel="stylesheet">
+<%- include("partials/head.ejs") %>
 
-</head>
-<body>
-        <header>
-        <nav>
-            <ul>
-                <a href="index">
-                    <li>Ver</li>
-                </a>
-                <a href="consultar">
-                    <li>Consultar id</li>
-                </a>
-                <a href="crear">
-                    <li>Crear</li>
-                </a>
-                <a href="modificar">
-                    <li>Modificar</li>
-                </a>
-                <a href="eliminar">
-                    <li>Eliminar</li>
-                </a>
-            </ul>
-        </nav>
-    </header>
+    <%- include("partials/header.ejs") %>
+
 
     <main>
         <h1><%= about %></h1>
@@ -39,7 +9,7 @@
         <section id="contenedor-productos">
             <% products.forEach((p) => { %>
             <div class="card-producto">
-                <img src=p.img_url alt="" >
+                <img src= <%= p.img_url %> alt="" >
                 <h3><%= p.nombre %></h3>
                 <p><%= p.id %></p>
                 <p>$ <%= p.precio %></p>
