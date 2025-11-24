@@ -3,7 +3,7 @@ import express from "express";
 import environments from "./src/api/config/environments.js";
 import cors from "cors";
 import { loggerUrl } from "./src/api/middlewares/middlewares.js";
-import { rutasProductos } from "./src/api/routes/index.js";
+import { rutasProductos, ventasProductos } from "./src/api/routes/index.js";
 import { __dirname, join } from "./src/api/utils/index.js";
 import connection from "./src/api/database/db.js";
 
@@ -69,6 +69,7 @@ app.get("/", (req,res) => {
 })
 
 app.use("/api/productos", rutasProductos);
+app.use("/api", ventasProductos)
 
 
 
