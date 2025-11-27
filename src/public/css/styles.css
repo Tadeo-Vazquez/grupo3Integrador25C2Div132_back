@@ -32,6 +32,9 @@ main {
     align-items: center;
 }
 
+.card-producto p {
+    margin-top: 0;
+}
 
 #getProductos-form{
     display: flex;
