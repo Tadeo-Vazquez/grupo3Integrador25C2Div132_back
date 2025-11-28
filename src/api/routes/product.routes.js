@@ -13,6 +13,7 @@ router.get("/:id", validarId , getProductById)
 
 // crear nuevo producto
 router.post("/", createProduct)
+
 router.post("/upload", multerUploader.single("image"), (req,res) => {
     try{
     console.log("Imagen subida correctamente")

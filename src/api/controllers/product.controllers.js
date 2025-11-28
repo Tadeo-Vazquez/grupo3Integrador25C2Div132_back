@@ -1,16 +1,20 @@
-import { deleteProduct, insertProduct, selectAllProducts, selectProductById, updateProduct } from "../models/product.models.js";
+import { deleteProduct, insertProduct, selectAllProducts, selectProductById, selectProducts, updateProduct } from "../models/product.models.js";
 
 
 export const getAllProducts = async (req,res) => {
     try{
-        const [rows,fields] = await selectAllProducts()
-
+        const limit = parseInt(req.query.limit) || 10
+        const offset = parseInt(req.query.offset) || 0
+        const pagina = await selectProducts({limit,offset})
+        
         res.status(200).json({
-            payload: rows,
-            message: rows.length === 0 ? "no se encontraron productos":"productos obtenidos"
+            payload: pagina,
+            message: pagina.rows.length === 0 ? "no se encontraron productos":"productos obtenidos"
         })
         
     }catch(error){
+        console.log(error);
+        
         console.error("ERROR obteniendo productos: ", error.message);
         res.status(500).json({
             message: "Error interno al obtener productos"

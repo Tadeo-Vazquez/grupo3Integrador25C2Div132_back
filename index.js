@@ -8,6 +8,8 @@ import { __dirname, join } from "./src/api/utils/index.js";
 import connection from "./src/api/database/db.js";
 import session from "express-session";
 import { handleMulterError } from "./src/api/middlewares/multer-middleware.js";
+import { comparePassword, hashPassword } from "./src/api/utils/bcrypt.js";
+import { selectProducts } from "./src/api/models/product.models.js";
 
 const app = express();
 
@@ -39,14 +41,17 @@ app.set("views", join(__dirname,"src","views"))
 
 
 
-app.get("/",requireLogin, async (req,res)=>{
+app.get("/", requireLogin, async (req,res)=>{
     try{
-        const [rows] = await connection.query("SELECT * FROM productos")
+        // const [rows] = await connection.query("SELECT * FROM productos")
+        const limit = parseInt(req.query.limit) || 10
+        const offset = parseInt(req.query.offset) || 0
+        const pagina = await selectProducts({limit,offset})
 
         res.render("index",{
             title:"Indice",
             about:"Lista de productos",
-            products: rows
+            products: pagina.rows
         })
 
     }catch(error){
@@ -94,10 +99,52 @@ app.get("/login",(req,res)=>{
 
 
 
+// app.post("/login", async (req, res) => {
+//     try {
+//         const { email, password } = req.body;
+
+
+//         if(!email || !password) {
+//             return res.render("login", {
+//                 title: "Login",
+//                 about: "Login dashboard",
+//                 error: "Todos los campos son obligatorios"
+//             });
+//         }
+        
+//         const sql = "SELECT * FROM usuarios WHERE correo = ? AND password = ?";
+//         const [rows] = await connection.query(sql, [email, password]);
+
+//         if(rows.length === 0) {
+//             return res.render("login", {
+//                 title: "Login",
+//                 about: "Login dashboard",
+//                 error: "Credenciales incorrectas"
+//             })
+//         }
+
+ 
+//         const user = rows[0];
+//         console.table(user);
+
+       
+//         req.session.user = {
+//             id: user.id,
+//             nombre: user.nombre,
+//             email: user.email
+//         }
+
+//         res.redirect("/"); 
+        
+
+//     } catch (error) {
+//         console.error("Error en el login", error);
+//     }
+// });
+
 app.post("/login", async (req, res) => {
     try {
         const { email, password } = req.body;
-
 
         if(!email || !password) {
             return res.render("login", {
@@ -106,9 +153,10 @@ app.post("/login", async (req, res) => {
                 error: "Todos los campos son obligatorios"
             });
         }
+        
+        const sql = "SELECT * FROM usuarios WHERE correo = ?";
+        const [rows] = await connection.query(sql, [email]);
 
-        const sql = "SELECT * FROM usuarios WHERE correo = ? AND password = ?";
-        const [rows] = await connection.query(sql, [email, password]);
 
         if(rows.length === 0) {
             return res.render("login", {
@@ -117,11 +165,18 @@ app.post("/login", async (req, res) => {
                 error: "Credenciales incorrectas"
             })
         }
-
  
         const user = rows[0];
         console.table(user);
 
+        const isMatch = await comparePassword(password,user.password)
+        if (!isMatch){
+            return res.render("login", {
+                title: "Login",
+                about: "Login dashboard",
+                error: "Credenciales incorrectas"
+            })
+        }
        
         req.session.user = {
             id: user.id,
