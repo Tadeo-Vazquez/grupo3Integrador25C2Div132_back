@@ -2,7 +2,7 @@
 import express from "express";
 import environments from "./src/api/config/environments.js";
 import cors from "cors";
-import { loggerUrl } from "./src/api/middlewares/middlewares.js";
+import { loggerUrl, requireLogin } from "./src/api/middlewares/middlewares.js";
 import { rutasProductos, ventasProductos } from "./src/api/routes/index.js";
 import { __dirname, join } from "./src/api/utils/index.js";
 import connection from "./src/api/database/db.js";
@@ -25,6 +25,11 @@ app.use(express.urlencoded({extended: true}));
 
 app.use(express.static(join(__dirname,"src","public")))
 
+app.use(session({
+    secret: SESSION_KEY,
+    resave: false,
+    saveUninitialized: true
+}));
 
 
 
@@ -32,7 +37,8 @@ app.set("view engine", "ejs")
 app.set("views", join(__dirname,"src","views"))
 
 
-app.get("/", async (req,res)=>{
+
+app.get("/",requireLogin, async (req,res)=>{
     try{
         const [rows] = await connection.query("SELECT * FROM productos")
 
@@ -47,28 +53,31 @@ app.get("/", async (req,res)=>{
         
     }
 })
-app.get("/consultar",(req,res)=>{
+app.get("/consultar", requireLogin,(req,res)=>{
     res.render("consultar",{
             title:"Consultar",
             about:"Consultar producto por ID",
         })
 })
-app.get("/crear",(req,res)=>{
+app.get("/crear", requireLogin,(req,res)=>{
     res.render("crear",{
             title:"Crear"
         }
         )
 })
-app.get("/eliminar",(req,res)=>{
+app.get("/eliminar", requireLogin,(req,res)=>{
     res.render("eliminar",{
             title:"Eliminar"
         })
 })
-app.get("/modificar",(req,res)=>{
+app.get("/modificar", requireLogin,(req,res)=>{
     res.render("modificar",{
             title:"Modificar"
         })
 })
+
+
+
 
 app.get("/login",(req,res)=>{
     res.render("login",{
@@ -76,6 +85,7 @@ app.get("/login",(req,res)=>{
             about: "inciar sesion"
         })
 })
+
 
 
 app.post("/login", async (req, res) => {
@@ -139,12 +149,6 @@ app.post("/logout", (req, res) => {
 });
 
 
-
-app.use(session({
-    secret: SESSION_KEY,
-    resave: false,
-    saveUninitialized: true
-}));
 
 
 
