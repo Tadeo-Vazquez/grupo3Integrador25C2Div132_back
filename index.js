@@ -20,8 +20,6 @@ app.use(cors())
 // middleware logger (de aplicacion)
 app.use(loggerUrl)
 
-app.use(handleMulterError)
-
 app.use(express.json())
 
 app.use(express.urlencoded({extended: true}));
@@ -153,6 +151,7 @@ app.post("/logout", (req, res) => {
 });
 
 app.use("/api/productos", rutasProductos);
+app.use(handleMulterError)
 app.use("/api", ventasProductos)
 
 

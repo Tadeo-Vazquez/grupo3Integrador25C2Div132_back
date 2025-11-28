@@ -19,7 +19,7 @@ const fileFilterConfig = (req,file,callback) => {
     const tiposPermitidos = ["image/png", "image/jpeg", "image/webp"]
     const tipo = file.mimetype
     if (! tiposPermitidos.includes(tipo)){
-        callback(new Error("Tipo de archivo no permitido"))
+        return callback(new Error("Tipo de archivo no permitido"))
 
     }
     callback(null, true)
