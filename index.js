@@ -7,6 +7,7 @@ import { rutasProductos, ventasProductos } from "./src/api/routes/index.js";
 import { __dirname, join } from "./src/api/utils/index.js";
 import connection from "./src/api/database/db.js";
 import session from "express-session";
+import { handleMulterError } from "./src/api/middlewares/multer-middleware.js";
 
 const app = express();
 
@@ -18,6 +19,8 @@ app.use(cors())
 
 // middleware logger (de aplicacion)
 app.use(loggerUrl)
+
+app.use(handleMulterError)
 
 app.use(express.json())
 
@@ -73,6 +76,11 @@ app.get("/eliminar", requireLogin,(req,res)=>{
 app.get("/modificar", requireLogin,(req,res)=>{
     res.render("modificar",{
             title:"Modificar"
+        })
+})
+app.get("/subirImagen", requireLogin,(req,res)=>{
+    res.render("subirImagen",{
+            title:"Subi tu imagen"
         })
 })
 
@@ -133,30 +141,19 @@ app.post("/login", async (req, res) => {
 
 
 app.post("/logout", (req, res) => {
-
-   
     req.session.destroy((err) => {
         if(err) { 
             console.log("Error al destruir la sesion", err);
             return res.status(500).json({
                 error: "Error al cerrar la sesion"
             });
-        }
-
-       
+        } 
         res.redirect("/login");
     });
 });
 
-
-
-
-
 app.use("/api/productos", rutasProductos);
 app.use("/api", ventasProductos)
-
-
-
 
 
 app.listen(PORT, ()=>{
