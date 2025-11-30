@@ -46,7 +46,7 @@ app.get("/", requireLogin, async (req,res)=>{
         // const [rows] = await connection.query("SELECT * FROM productos")
         const limit = parseInt(req.query.limit) || 10
         const offset = parseInt(req.query.offset) || 0
-        const pagina = await selectProducts({limit,offset})
+        const pagina = await selectProducts({limit:20,offset})
 
         res.render("index",{
             title:"Indice",

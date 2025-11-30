@@ -1,7 +1,7 @@
 let contenedorMensaje = document.getElementById("contenedorMensaje")
 let contenedorProductos = document.getElementById("listadoProductos");
 let form = document.getElementById("getProductos-form")
-
+const URL_BASE = "http://localhost:3000/"
 form.addEventListener("submit", async event => {
     event.preventDefault() // prevenimos el envio por defecto del form
 
@@ -14,7 +14,7 @@ form.addEventListener("submit", async event => {
     console.log(idProducto);
     
     try{
-        let respuesta = await fetch(`http://localhost:3000/api/productos/${idProducto}`);
+        let respuesta = await fetch(`${URL_BASE}api/productos/${idProducto}`);
         let datos = await respuesta.json();
         if (respuesta.ok){
             let producto = datos.payload[0];    
@@ -33,7 +33,7 @@ form.addEventListener("submit", async event => {
 
 function mostrarProducto(p){
     let htmlProducto = `<li class="li-listados">
-                        <img src="${p.img_url}" alt="${p.nombre}" class="img-listados">
+                        <img src="${URL_BASE}${p.img_url}" alt="${p.nombre}" class="img-listados">
                         <p>Id: ${p.id}</p>  <p>Nombre: ${p.nombre}</p>
                         <strong>Precio: $${p.precio}</strong>
                         </li>`;

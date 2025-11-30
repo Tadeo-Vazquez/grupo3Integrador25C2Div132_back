@@ -3,7 +3,12 @@ import { deleteProduct, insertProduct, selectAllProducts, selectProductById, sel
 
 export const getAllProducts = async (req,res) => {
     try{
-        const limit = parseInt(req.query.limit) || 10
+        let limit;
+        if (req.query.limite === undefined){
+            limit = undefined;
+        }else{
+            limit = parseInt(req.query.limit) || 10
+        }
         const offset = parseInt(req.query.offset) || 0
         const pagina = await selectProducts({limit,offset})
         
@@ -48,15 +53,15 @@ export const getProductById = async (req,res) => {
 
 export const createProduct = async (req,res) => {
     try{
-        let {nombre,imagen,categoria,precio} = req.body;
-
+        let {nombre,categoria,precio} = req.body;
+        let imagen = req.file;
         if (!nombre || !imagen || !categoria || !precio){
             return res.status(400).json({
                 message: `Rellena todos los campos`
             })
         }
-
-        let [rows] = await insertProduct(nombre,categoria,precio,imagen)
+        let pathImagen = "img/" + imagen.filename;
+        let [rows] = await insertProduct(nombre,categoria,precio,pathImagen)
         
         res.status(201).json({
             message: "producto creado exitosamente"
@@ -72,15 +77,16 @@ export const createProduct = async (req,res) => {
 
 export const modifyProduct = async (req,res) => {
     try{
-        let {id,activo,nombre,imagen,categoria,precio} = req.body;
-        
-        if (!id || !activo || !nombre || !imagen || !categoria || !precio){
+        let {id,activo,nombre,categoria,precio} = req.body;
+        let imagen = req.file
+        if (!id || activo === undefined || !nombre || !imagen || !categoria || !precio){
             return res.status(400).json({
                 message: `Rellena todos los campos`
             })
         }
+        let pathImagen = "img/" + imagen.filename;
 
-        let [result] = await updateProduct(activo,nombre,categoria,precio,imagen,id)
+        let [result] = await updateProduct(activo,nombre,categoria,precio,pathImagen,id)
         
         if (result.affectedRows === 0){
             return res.status(400).json({

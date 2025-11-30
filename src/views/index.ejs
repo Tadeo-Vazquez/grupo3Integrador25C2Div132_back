@@ -7,9 +7,10 @@
         <h1><%= about %></h1>
         
         <section id="contenedor-productos">
+            <% const URL_BASE ="http://localhost:3000/" %>
             <% products.forEach((p) => { %>
             <div class="card-producto">
-                <img src= <%= p.img_url %> alt="" >
+                <img src= <%= URL_BASE + p.img_url %> alt="" >
                 <h3><%= p.nombre %></h3>
                 <p><%= p.id %></p>
                 <p><%= p.tipo %></p>

@@ -4,9 +4,7 @@ let contMensajeCreado = document.getElementById("cont-mensaje-creado")
 altaProductos_form.addEventListener("submit", event => {
     event.preventDefault();
     let formData = new FormData(event.target);
-    let data = Object.fromEntries(formData.entries())
-
-    enviarProducto(data)
+    enviarProducto(formData)
 })
 
 async function enviarProducto(data){
@@ -14,14 +12,10 @@ async function enviarProducto(data){
     try{
         let respuesta = await fetch(url, {
             method:"POST",
-            headers:{
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
+            body: data
         }
         );
-        console.log(respuesta);
-        
+        console.log(respuesta);     
         let resultado = await respuesta.json();
         console.log(resultado);
         
@@ -44,4 +38,46 @@ async function enviarProducto(data){
         console.error("Error al enviar los datos: " , error)
         alert("Error al procesar la solicitud")
     }
+}
+
+// multer subir imagen
+
+const API_URL = "http://localhost:3000/";
+
+const dropArea = document.getElementById('dropArea');
+const fileInput = document.getElementById('fileInput');
+const filePreview = document.getElementById('filePreview');
+const fileName = document.getElementById('fileName');
+
+fileInput.addEventListener('change', () => {
+    if (fileInput.files.length) {
+    showFile(fileInput.files[0]);
+    }
+});
+
+['dragenter', 'dragover'].forEach(eventName => {
+    dropArea.addEventListener(eventName, e => {
+    e.preventDefault();
+    dropArea.classList.add('dragover');
+    });
+});
+
+['dragleave', 'drop'].forEach(eventName => {
+    dropArea.addEventListener(eventName, e => {
+    e.preventDefault();
+    dropArea.classList.remove('dragover');
+    });
+});
+
+dropArea.addEventListener('drop', e => {
+    const files = e.dataTransfer.files;
+    if (files.length) {
+    fileInput.files = files;
+    showFile(files[0]);
+    }
+});
+
+function showFile(file) {
+    filePreview.style.display = 'flex';
+    fileName.textContent = `Archivo: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
 }
