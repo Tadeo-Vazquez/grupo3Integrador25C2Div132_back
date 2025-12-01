@@ -4,13 +4,24 @@ import { deleteProduct, insertProduct, selectAllProducts, selectProductById, sel
 export const getAllProducts = async (req,res) => {
     try{
         let limit;
-        if (req.query.limite === undefined){
-            limit = undefined;
-        }else{
+        let soloActivos;
+        let categoria;
+        let orderBy;
+        if (req.query.limite !== undefined){
             limit = parseInt(req.query.limit) || 10
         }
+        if (req.query.soloActivos === "true" || req.query.soloActivos === "1"){
+            soloActivos = true
+        }
+        if (req.query.categoria !== undefined){
+            categoria = req.query.categoria
+        }
+        if (req.query.orderBy !== undefined){
+            orderBy = req.query.orderBy
+        }
+
         const offset = parseInt(req.query.offset) || 0
-        const pagina = await selectProducts({limit,offset})
+        const pagina = await selectProducts({limit,offset,soloActivos,categoria,orderBy})
         
         res.status(200).json({
             payload: pagina,

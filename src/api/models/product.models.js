@@ -5,14 +5,32 @@ export const selectAllProducts = () => {
     return connection.query(sql);
 }
 
-export const selectProducts = async ({limit=10,offset=0}) => {
-    const sqlTotalProd = "SELECT count(*) as total from productos"
-    const [[{ total }]] = await connection.query(sqlTotalProd)
-    console.log(total); 
-    const sql = "SELECT * from productos limit ? offset ?";
-    const [rows] = await connection.query(sql,[limit,offset]);    
-    return {rows,total}
-}
+export const selectProducts = async ({limit=10,offset=0,soloActivos=false,categoria="todos",orderBy=""}) => {
+    let conditions = [];
+    let params = [];
+    let orderBySentence = "";
+    if (soloActivos) conditions.push("activo = 1");
+
+    if (categoria !== "todos") {
+        conditions.push("tipo = ?");
+        params.push(categoria);
+    }
+    if (orderBy === "nombre" || orderBy === "precio"){
+        orderBySentence = `order by ${orderBy} ASC`
+    }
+    
+    const where = conditions.length ? `WHERE ${conditions.join(" AND ")}` : "";
+    // COUNT (sin limit/offset)
+    const sqlTotal = `SELECT COUNT(*) AS total FROM productos ${where}`;
+    const [[{ total }]] = await connection.query(sqlTotal, params);
+
+    // SELECT (con orden + paginado)
+    const sql = `SELECT * FROM productos ${where} ${orderBySentence} LIMIT ? OFFSET ?`;
+    const rowsParams = [...params, limit, offset];
+    const [rows] = await connection.query(sql, rowsParams);
+
+    return { rows, total };
+};
 
 export const selectProductById = (id) => {
     const sql = `SELECT * from productos WHERE productos.id = ?`;
