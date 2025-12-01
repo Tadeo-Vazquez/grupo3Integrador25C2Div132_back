@@ -94,6 +94,8 @@ nav ul a:hover {
 
 .card-producto:hover{
     scale: 1.2;
+    background-color: rgba(30, 161, 255);
+
 }
 
 /* Estilos "Consultar producto" */
@@ -349,4 +351,67 @@ input[type="file"] {
 
 .upload-button:hover {
   background-color: #1e40af;
+}
+
+#container-body{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#container-login{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    background-color: #00000054;
+    padding: 40px 80px;
+}
+
+#titulo-login{
+    margin: 0;
+}
+
+#login-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+#login-form label{
+    font-size: 20px;
+}
+
+#login-form input{
+    padding: 8px;
+    font-weight: 700;
+}
+
+#login-form input:focus{
+    box-shadow: 0px 0px 12px 8px rgba(71, 226, 253, 0.75);
+
+}
+
+#submit-login{
+  width: 70px;          /* ajustá tamaño */
+  height: 70px;
+  background-image: url('https://www.svgrepo.com/show/166680/login-button.svg');
+  background-size: 70%;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  cursor: pointer;
+  border-radius: 50%;
+  background-color: rgba(36, 131, 255, 0.792);
+}
+
+#acceso{
+    cursor: pointer;
+    background-color: rgba(132, 185, 255, 0.792);
+    border: 2px solid black;
+    font-weight: 800;
+    letter-spacing: 1.5px;
 }

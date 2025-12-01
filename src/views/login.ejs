@@ -1,25 +1,27 @@
 <%- include("partials/head.ejs") %>
+<div id="container-body">
+    <div id="container-login">
+        <h1 id="titulo-login"> <%= about %> </h1>
 
-<h1> <%= about %> </h1>
+        <% if (typeof error !== "undefined") { %>
+            <div class="error-message">
+                <%= error %>
+            </div>
+        <% } %>
 
-<% if (typeof error !== "undefined") { %>
-    <div class="error-message">
-        <%= error %>
-    </div>
-<% } %>
+        <form id="login-form" action="/login" method="POST" autocomplete="off">
 
-<form id="login-form" action="/login" method="POST" autocomplete="off">
+            <label for="emailUser">Email</label>
+            <input type="email" name="email" id="emailUser" required>
 
-    <label for="emailUser">Email</label>
-    <input type="email" name="email" id="emailUser" required>
+            <label for="passwordUser">Password</label>
+            <input type="password" name="password" id="passwordUser" required>
 
-    <label for="passwordUser">Password</label>
-    <input type="password" name="password" id="passwordUser" required>
-
-    <input type="submit" class="btn-login" value="Login">
-    <input type="button" id="acceso" class="btn-login" value="Acceso rápido">
-</form>
-
+            <input type="submit" class="btn-login" id="submit-login" value="">
+            <input type="button" id="acceso" class="btn-login" value="Acceso rápido">
+        </form>
+    </div>  
+</div>
 <script>
     let emailUser = document.getElementById("emailUser");
     let passwordUser = document.getElementById("passwordUser");
