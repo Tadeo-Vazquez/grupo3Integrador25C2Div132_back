@@ -17,7 +17,7 @@ html {
 ul {
     padding-left: 0;
     display:  flex;
-    justify-content:space-around;
+    justify-content: space-between;
     list-style: none;
 }
 
@@ -431,3 +431,39 @@ input[type="file"] {
     cursor: pointer;
 
 }
+
+.button-logout{
+    background-color: rgba(255, 0, 0, 0.291);
+   
+    background-image: url('https://www.svgrepo.com/show/506720/logout.svg');
+    background-size: 80%;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: none;
+    border-radius: 40%;
+
+    width: 40px;
+    height: 40px;
+
+    margin: 0 auto;
+
+
+  
+
+
+}
+
+.button-logout:hover{
+    cursor: pointer;
+    box-shadow: 0px 0px 3px 5px rgba(0,0,0,0.5);
+    border: 2px solid black;
+}
+
+
+.contenedor-enlaces-nav{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    width: 85%;
+}
+

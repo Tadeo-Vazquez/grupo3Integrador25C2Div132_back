@@ -1,7 +1,8 @@
 <header>
     <nav>
         <ul>
-            <a href="/">
+            <div class="contenedor-enlaces-nav">
+                 <a href="/">
                 <li>Ver</li>
             </a>
             <a href="/consultar">
@@ -16,10 +17,12 @@
             <a href="/eliminar">
                 <li>Eliminar</li>
             </a>
+            </div>
+            <form action="/logout" method="POST" id="logout">
+                <input class="button-logout" type="submit" value=" ">
+            </form>
         </ul>
     </nav>
-  <form action="/logout" method="POST" id="logout">
-        <input type="submit" value="Cerrar sesion">
-    </form>
+ 
 
 </header>
