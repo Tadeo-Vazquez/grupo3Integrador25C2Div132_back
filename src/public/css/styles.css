@@ -434,23 +434,15 @@ input[type="file"] {
 
 .button-logout{
     background-color: rgba(255, 0, 0, 0.291);
-   
     background-image: url('https://www.svgrepo.com/show/506720/logout.svg');
     background-size: 80%;
     background-repeat: no-repeat;
     background-position: center;
     border: none;
     border-radius: 40%;
-
     width: 40px;
     height: 40px;
-
     margin: 0 auto;
-
-
-  
-
-
 }
 
 .button-logout:hover{
@@ -459,7 +451,6 @@ input[type="file"] {
     border: 2px solid black;
 }
 
-
 .contenedor-enlaces-nav{
     display: flex;
     justify-content: space-between;
@@ -467,3 +458,8 @@ input[type="file"] {
     width: 85%;
 }
 
+#logout{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
