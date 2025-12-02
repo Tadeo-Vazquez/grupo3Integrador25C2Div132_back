@@ -16,9 +16,11 @@
                 <p><%= p.tipo %></p>
                 <p>$ <%= p.precio %></p>
                 <div class="container-datos-activo">
-                    <p class="texto-estado" id="estado-<%= p.id %>"> <%= p.activo ? "ACTIVO" : "INACTIVO" %></p>
-                    <button onclick='alternarActivoProducto(<%= JSON.stringify(p) %>)' id="boton-<%= p.id %>">
-                        <%= p.activo ? "Desactivar" : " Activar" %>
+                    <p id="estado-<%= p.id %>">
+                        <%= p.activo == 1 ? "ACTIVO" : "INACTIVO" %>
+                    </p>
+                    <button id="boton-<%= p.id %>" onclick="alternarActivo(<%= p.id %>)">
+                        <%= p.activo == 1 ? "Desactivar" : "Activar" %>
                     </button>
                 </div>
             </div>
@@ -29,7 +31,24 @@
 
 
     
-    <script src="js/index.js">
+    <script>
+        async function alternarActivo(id) {
+            // Enviar al backend el cambio
+            const response = await fetch(`http://localhost:3000/api/productos/${id}/toggleStatus`, {
+                method: "PUT"
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                console.error("Error:", data);
+                return;
+            }
+            // Actualizar DOM
+            const nuevoActivo = data.activo; // valor REAL según BD (0 o 1)
+            document.getElementById(`estado-${id}`).textContent =
+                nuevoActivo == 1 ? "ACTIVO" : "INACTIVO";
+            document.getElementById(`boton-${id}`).textContent =
+                nuevoActivo == 1 ? "Desactivar" : "Activar";
+        }
     </script>
 
   

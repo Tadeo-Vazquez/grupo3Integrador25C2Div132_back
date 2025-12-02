@@ -26,8 +26,7 @@ router.post("/",multerUploader.single("image"), createProduct)
 // PUT actualizar productos
 router.put("/", multerUploader.single("image") ,modifyProduct)
 
-router.put("/:id", alternateProdStatus);
-
+router.put("/:id/toggleStatus", alternateProdStatus);
 router.delete("/:id", validarId , removeProduct)
 
 

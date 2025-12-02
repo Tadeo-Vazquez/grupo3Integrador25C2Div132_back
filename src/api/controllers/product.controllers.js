@@ -142,18 +142,28 @@ export const  removeProduct = async (req,res)=>{
 }
 
 export const alternateProdStatus = async (req, res) => {
-    const { id } = req.params;
-
+    const id = req.params.id;
     try {
-        const [result] = await updateProductStatus(id)
-
-        if (result.affectedRows === 0) {
+        // Obtener valor actual
+        const [rows] = await selectProductById(id)
+        if (rows.length === 0) {
             return res.status(404).json({ message: "Producto no encontrado" });
         }
-        res.json({ message: "Estado alternado correctamente" });
+        const producto = rows[0]
 
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Error al alternar el estado del producto" });
+        // Alternar (0 → 1, 1 → 0)
+        const nuevoActivo = producto.activo == 1 ? 0 : 1;
+
+        // Guardar
+        updateProductStatus(nuevoActivo,id)
+
+        res.json({ 
+            message: "Actualizado", 
+            activo: nuevoActivo 
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Error de servidor" });
     }
 }

@@ -52,12 +52,9 @@ export const deleteProduct = (id) => {
     return connection.query(consulta, [id])
 }
 
-export const updateProductStatus = (id) => {
-    const sql = `
-           UPDATE productos
-           SET activo = NOT activo
-           WHERE id = ?;
-        `;
-
-    return connection.query(sql, [id]);
+export const updateProductStatus = (nuevoActivo,id) => {
+    return connection.query(
+            "UPDATE productos SET activo = ? WHERE id = ?", 
+            [nuevoActivo, id]
+        );
 }
