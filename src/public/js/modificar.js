@@ -86,7 +86,7 @@ async function crearFormularioPut(event, producto) {
         <label for="activo">Activo</label>
         <input type="number" min="0" max="1" step="1" value="${producto.activo}" name="activo" required>
         </div>
-        <input type="submit" value="Actualizar producto" id="boton-creaProd">
+        <input type="submit" value="" id="boton-creaProd">
     </form>
     `;
 

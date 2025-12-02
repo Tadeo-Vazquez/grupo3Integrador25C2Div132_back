@@ -37,7 +37,7 @@ function mostrarProducto(p){
                         <strong>Precio: $${p.precio}</strong>
                         </li>
                         <li class="li-botonera">
-                            <input type="button" id="botonEliminarProducto" value="Eliminar producto">
+                            <input type="button" id="botonEliminarProducto" value="">
                         </li>`;
                         contenedorProductos.innerHTML = htmlProducto
                         let eliminar_producto_boton = document.getElementById("botonEliminarProducto")

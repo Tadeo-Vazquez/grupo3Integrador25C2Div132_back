@@ -463,3 +463,13 @@ input[type="file"] {
     justify-content: center;
     align-items: center;
 }
+
+#botonEliminarProducto, #boton-creaProd{
+    background-color: rgba(255, 0, 0, 0.291);
+    background-image: url('http://localhost:3000/img/editar.png');
+    background-size: 80%;
+    background-repeat: no-repeat;
+    background-position: center;
+
+
+}

@@ -6,10 +6,11 @@
     <main>
         <h1>Eliminar producto por ID</h1>
         <form action="" id="getProductos-form">
-            <label for="idProd">ID del producto</label>
-            <input type="number" name="idProd" id="idProd" min="1">
-
-            <input type="submit" value="Consultar">
+             <div>
+            <label for="idProd" id="label-idProd">ID del producto</label>
+            <input type="number" name="idProd" id="idProd" min="1" class="inTransColor">
+            </div>
+            <input type="submit" id="boton-consultar" value="Consultar">
         </form>
         <section id="contenedor-productos">
             <ul id="listadoProductos"></ul>
