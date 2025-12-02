@@ -464,12 +464,34 @@ input[type="file"] {
     align-items: center;
 }
 
-#botonEliminarProducto, #boton-creaProd{
-    background-color: rgba(255, 0, 0, 0.291);
-    background-image: url('http://localhost:3000/img/editar.png');
+#botonEliminarProducto, #updateProduct_button{
     background-size: 80%;
     background-repeat: no-repeat;
     background-position: center;
+    border: none;
+    width: 50px;
+    height: 50px;
+    margin-left: 10px;
+    border-radius: 10px;
+}
 
+#botonEliminarProducto{
+    background-image: url('http://localhost:3000/img/borrar.png');
+    background-color: rgba(255, 48, 48, 0.600);
+
+}
+#updateProduct_button{
+    background-color: rgba(231, 255, 14, 0.6);
+    background-image: url('http://localhost:3000/img/editar.png');
+
+}
+
+#botonEliminarProducto:hover{
+    background-color: rgba(255, 48, 48);
+    cursor: pointer;
+}
+#updateProduct_button:hover{
+    cursor: pointer;
+    background-color: rgba(231, 255, 14);
 
 }

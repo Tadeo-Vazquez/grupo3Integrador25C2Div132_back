@@ -37,7 +37,7 @@ function mostrarProducto(p){
                         <strong>Precio: $${p.precio}</strong>
                         </li>
                             <li class="li-botonera">
-                            <input type="button" id="updateProduct_button" value="Actualizar producto">
+                            <input type="button" id="updateProduct_button" value="">
                         </li>`;
     contenedorProductos.innerHTML = htmlProducto
     let updateProduct_button = document.getElementById("updateProduct_button");
@@ -86,7 +86,7 @@ async function crearFormularioPut(event, producto) {
         <label for="activo">Activo</label>
         <input type="number" min="0" max="1" step="1" value="${producto.activo}" name="activo" required>
         </div>
-        <input type="submit" value="" id="boton-creaProd">
+        <input type="submit" value="Actualizar producto" id="boton-creaProd">
     </form>
     `;
 
