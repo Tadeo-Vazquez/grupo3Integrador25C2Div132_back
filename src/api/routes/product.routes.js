@@ -1,4 +1,4 @@
-import { createProduct, getAllProducts, getProductById, modifyProduct, removeProduct } from "../controllers/product.controllers.js";
+import { alternateProdStatus, createProduct, getAllProducts, getProductById, modifyProduct, removeProduct } from "../controllers/product.controllers.js";
 import { validarId } from "../middlewares/middlewares.js";
 import { Router } from "express";
 import { multerUploader } from "../middlewares/multer-middleware.js";
@@ -25,6 +25,8 @@ router.post("/",multerUploader.single("image"), createProduct)
 
 // PUT actualizar productos
 router.put("/", multerUploader.single("image") ,modifyProduct)
+
+router.put("/:id", alternateProdStatus);
 
 router.delete("/:id", validarId , removeProduct)
 

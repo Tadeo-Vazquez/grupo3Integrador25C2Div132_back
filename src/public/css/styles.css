@@ -415,3 +415,19 @@ input[type="file"] {
     font-weight: 800;
     letter-spacing: 1.5px;
 }
+
+.container-datos-activo{
+    margin-bottom: 10px;
+}
+.container-datos-activo button{
+    border: 3px solid black;
+    color: white;
+    border-radius: 4px;
+    background-color: rgba(0, 0, 255, 0.499);
+    padding: 8px;
+}
+.container-datos-activo button:hover{
+    border: 3px solid white;
+    cursor: pointer;
+
+}

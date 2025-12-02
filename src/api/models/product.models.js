@@ -51,3 +51,13 @@ export const deleteProduct = (id) => {
     let consulta = "delete from productos WHERE id = ?"
     return connection.query(consulta, [id])
 }
+
+export const updateProductStatus = (id) => {
+    const sql = `
+           UPDATE productos
+           SET activo = NOT activo
+           WHERE id = ?;
+        `;
+
+    return connection.query(sql, [id]);
+}

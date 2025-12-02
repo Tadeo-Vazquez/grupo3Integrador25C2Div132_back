@@ -1,4 +1,4 @@
-import { deleteProduct, insertProduct, selectAllProducts, selectProductById, selectProducts, updateProduct } from "../models/product.models.js";
+import { deleteProduct, insertProduct, selectAllProducts, selectProductById, selectProducts, updateProduct, updateProductStatus } from "../models/product.models.js";
 
 
 export const getAllProducts = async (req,res) => {
@@ -138,5 +138,22 @@ export const  removeProduct = async (req,res)=>{
             message: "Error interno al eliminar producto",
             error: error.message
         })
+    }
+}
+
+export const alternateProdStatus = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const [result] = await updateProductStatus(id)
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: "Producto no encontrado" });
+        }
+        res.json({ message: "Estado alternado correctamente" });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error al alternar el estado del producto" });
     }
 }

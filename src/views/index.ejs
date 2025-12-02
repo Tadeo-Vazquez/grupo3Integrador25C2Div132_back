@@ -15,6 +15,12 @@
                 <p><%= p.id %></p>
                 <p><%= p.tipo %></p>
                 <p>$ <%= p.precio %></p>
+                <div class="container-datos-activo">
+                    <p class="texto-estado" id="estado-<%= p.id %>"> <%= p.activo ? "ACTIVO" : "INACTIVO" %></p>
+                    <button onclick='alternarActivoProducto(<%= JSON.stringify(p) %>)' id="boton-<%= p.id %>">
+                        <%= p.activo ? "Desactivar" : " Activar" %>
+                    </button>
+                </div>
             </div>
             <% }) %>
 
@@ -23,7 +29,9 @@
 
 
     
-    <!-- <script src="js/index.js">
-    </script> -->
+    <script src="js/index.js">
+    </script>
+
+  
 </body>
 </html>
