@@ -10,7 +10,7 @@ import session from "express-session";
 import { handleMulterError } from "./src/api/middlewares/multer-middleware.js";
 import { comparePassword, hashPassword } from "./src/api/utils/bcrypt.js";
 import { selectProducts } from "./src/api/models/product.models.js";
-
+import {requireFields, findUser, checkPassword } from "./src/api/middlewares/login-middlewares.js"
 const app = express();
 
 const PORT = environments.port;
@@ -143,7 +143,7 @@ app.get("/login",(req,res)=>{
 //     }
 // });
 
-app.post("/login", async (req, res) => {
+/* app.post("/login", async (req, res) => {
     try {
         const { email, password } = req.body;
 
@@ -192,6 +192,26 @@ app.post("/login", async (req, res) => {
         console.error("Error en el login", error);
     }
 });
+ */
+
+
+app.post(
+    "/login",
+    requireFields(["email", "password"]),  
+    findUser,                             
+    checkPassword,                        
+    (req, res) => {                       
+        const user = req.userDB;
+
+        req.session.user = {
+            id: user.id,
+            nombre: user.nombre,
+            email: user.correo,
+        };
+
+        res.redirect("/");
+    }
+);
 
 
 app.post("/logout", (req, res) => {
