@@ -48,6 +48,7 @@ export const createVenta = async (req,res) => {
         let total = productos.reduce((acum,p) => acum + p.precio * p.cantidad, 0)
                 
         let [rows] = await insertVenta(fecha,nombre_usuario,total)
+        console.log(rows);     
         const venta_id = rows.insertId;
         
         for (const p of productos){
