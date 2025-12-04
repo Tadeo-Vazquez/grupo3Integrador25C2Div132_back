@@ -14,14 +14,6 @@ router.get("/:id", validarId , getProductById)
 // crear nuevo producto
 router.post("/",multerUploader.single("image"), createProduct)
 
-// router.post("/upload", multerUploader.single("image"), (req,res) => {
-//     try{
-//     console.log("Imagen subida correctamente")
-//     console.log(req.file);
-//     }catch(err){
-//         console.error("ERROR: " + err)
-//     }
-// })
 
 // PUT actualizar productos
 router.put("/", multerUploader.single("image") ,modifyProduct)

@@ -1,21 +1,35 @@
-import { deleteProduct, insertProduct, selectAllProducts, selectProductById, selectProducts, updateProduct, updateProductStatus } from "../models/product.models.js";
+import { deleteProduct, insertProduct, selectProductById, selectProducts, updateProduct, updateProductStatus } from "../models/product.models.js";
 
-
+/**
+ * Controlador de ruta (GET /).
+ * Obtiene un listado paginado y filtrado de productos desde la base de datos.
+ *
+ * @param {object} req Objeto de solicitud de Express (contiene query params para paginación y filtro).
+ * @param {object} res Objeto de respuesta de Express.
+ * @returns {object} Respuesta HTTP 200 con el listado de productos o 500 si hay un error.
+ * El cuerpo JSON incluye:
+ * - payload: El objeto de paginación con 'rows' (productos) y 'total'.
+ * - message: Mensaje de éxito o no encontrado.
+ */
 export const getAllProducts = async (req,res) => {
     try{
         let limit;
         let soloActivos;
         let categoria;
         let orderBy;
-        if (req.query.limite !== undefined){
+        if (req.query.limit !== undefined){
             limit = parseInt(req.query.limit) || 10
         }
+
+         //si req.query.soloActivos ="true" o "1", se busca soloActivos
         if (req.query.soloActivos === "true" || req.query.soloActivos === "1"){
             soloActivos = true
         }
+        //depende la categoria pasada por re1.query.categoria, se asigna a la categoria a buscar
         if (req.query.categoria !== undefined){
             categoria = req.query.categoria
         }
+        //depende el tipo de ordenamiento pasado por req.query.orderBy se asigna a orderBy para realizar un ordenamiento.
         if (req.query.orderBy !== undefined){
             orderBy = req.query.orderBy
         }
@@ -38,6 +52,17 @@ export const getAllProducts = async (req,res) => {
     }
 }
 
+/**
+ * Controlador de ruta (GET /:id).
+ * Busca y retorna un único producto de la base de datos por su ID.
+ *
+ * @param {object} req Objeto de solicitud de Express. Espera el ID del producto en `req.params`.
+ * @param {object} res Objeto de respuesta de Express.
+ * @returns {object} Respuesta HTTP 200 con el producto, 404 si no existe, o 500 en caso de error.
+ * El cuerpo JSON incluye:
+ * - payload: El array con el objeto producto encontrado.
+ * - message: Mensaje de error si el producto no existe.
+ */
 export const getProductById = async (req,res) => {
     try{
         let {id} = req.params; // traemos el :id ingresado en la url 
@@ -61,7 +86,17 @@ export const getProductById = async (req,res) => {
         })
     }
 }
-
+/**
+ * Controlador de ruta (POST /).
+ * Crea un nuevo producto en la base de datos con los datos recibidos y la ruta de la imagen.
+ *
+ * @param {object} req Objeto de solicitud de Express. Espera los datos del producto en `req.body`
+ * y el archivo de imagen en `req.file`.
+ * @param {object} res Objeto de respuesta de Express.
+ * @returns {object} Respuesta HTTP 201 si el producto se crea exitosamente, o 400/500 si hay errores de validación o servidor.
+ * El cuerpo JSON incluye:
+ * - message: Mensaje de éxito o error.
+ */
 export const createProduct = async (req,res) => {
     try{
         let {nombre,categoria,precio} = req.body;
@@ -85,7 +120,17 @@ export const createProduct = async (req,res) => {
         })
     }
 }
-
+/**
+ * Controlador de ruta (PUT /).
+ * Actualiza un producto existente en la base de datos. Requiere todos los campos y la imagen.
+ *
+ * @param {object} req Objeto de solicitud de Express. Espera todos los datos del producto a modificar en `req.body`
+ * y el archivo de imagen en `req.file`.
+ * @param {object} res Objeto de respuesta de Express.
+ * @returns {object} Respuesta HTTP 200 si la actualización es exitosa, 400 si faltan campos o no se actualiza ninguna fila, o 500 en caso de error.
+ * El cuerpo JSON incluye:
+ * - message: Mensaje de éxito o error.
+ */
 export const modifyProduct = async (req,res) => {
     try{
         let {id,activo,nombre,categoria,precio} = req.body;
@@ -116,7 +161,16 @@ export const modifyProduct = async (req,res) => {
         })
     }
 }
-
+/**
+ * Controlador de ruta (DELETE /:id).
+ * Elimina un producto de la base de datos usando el ID proporcionado en los parámetros de la URL.
+ *
+ * @param {object} req Objeto de solicitud de Express. Espera el ID del producto a eliminar en `req.params`.
+ * @param {object} res Objeto de respuesta de Express.
+ * @returns {object} Respuesta HTTP 200 si la eliminación es exitosa, 400 si no se elimina ninguna fila (ID no encontrado), o 500 en caso de error.
+ * El cuerpo JSON incluye:
+ * - message: Mensaje de éxito o error.
+ */
 export const  removeProduct = async (req,res)=>{
     try{
         let {id} = req.params;
@@ -140,7 +194,17 @@ export const  removeProduct = async (req,res)=>{
         })
     }
 }
-
+/**
+ * Controlador de ruta (PUT /:id/toggleStatus).
+ * Alterna el estado 'activo' (0 o 1) de un producto específico.
+ *
+ * @param {object} req Objeto de solicitud de Express. Espera el ID del producto en `req.params`.
+ * @param {object} res Objeto de respuesta de Express.
+ * @returns {object} Respuesta HTTP 200 con el nuevo estado, 404 si el producto no existe, o 500 en caso de error.
+ * El cuerpo JSON incluye:
+ * - message: Mensaje de éxito.
+ * - activo: El nuevo valor (0 o 1) del estado del producto.
+ */
 export const alternateProdStatus = async (req, res) => {
     const id = req.params.id;
     try {
