@@ -1,6 +1,13 @@
 import connection from "../database/db.js";
 import { comparePassword } from "../utils/bcrypt.js";
 
+/**
+ * Middleware que verifica la presencia de campos obligatorios en req.body.
+ * Si algún campo falta, detiene la solicitud y renderiza la página de login con un error.
+ *
+ * @param {string[]} fields Array de nombres de campos que deben estar presentes en req.body.
+ * @returns Función de middleware (req, res, next) que ejecuta la validación.
+ */
 export function requireFields(fields) {
     return (req, res, next) => {
         for (const field of fields) {
@@ -16,6 +23,15 @@ export function requireFields(fields) {
     };
 }
 
+/**
+ * Middleware asíncrono para buscar un usuario en la base de datos por su correo electrónico.
+ *
+ * @param {object} req Objeto de solicitud de Express. Espera 'email' en `req.body`.
+ * @param {object} res Objeto de respuesta de Express.
+ * @param {function} next Función para pasar el control al siguiente middleware.
+ * @returns Llama a `next()` si el usuario se encuentra, o renderiza 'login' con un error si no se encuentra.
+ * El usuario encontrado se adjunta a la solicitud como `req.userDB`.
+ */
 export async function findUser(req, res, next) {
     try {
         const { email } = req.body;
@@ -42,7 +58,16 @@ export async function findUser(req, res, next) {
     }
 }
 
-
+/**
+ * Middleware asíncrono para verificar la contraseña del usuario.
+ * Compara la contraseña de `req.body` con el hash de la contraseña almacenada en `req.userDB`.
+ *
+ * @param {object} req Objeto de solicitud de Express. Requiere `req.userDB` (del middleware anterior)
+ * y espera 'password' en `req.body`.
+ * @param {object} res Objeto de respuesta de Express.
+ * @param {function} next Función para pasar el control al siguiente middleware o ruta.
+ * @returns Llama a `next()` si la contraseña es correcta, o renderiza 'login' con un error si no coincide.
+ */
 export async function checkPassword(req, res, next) {
     try {
         const { password } = req.body;

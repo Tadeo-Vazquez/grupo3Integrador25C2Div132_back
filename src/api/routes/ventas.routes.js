@@ -10,7 +10,7 @@ router.get("/ventas", getAllVentas)
 // get venta by id
 router.get("/ventas/:id", getVentaById)
 
-// crear nueva venmta
+// crear nueva venta
 router.post("/ventas", createVenta)
 
 

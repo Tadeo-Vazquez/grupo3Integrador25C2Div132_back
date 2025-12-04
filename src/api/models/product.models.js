@@ -1,18 +1,24 @@
 import connection from "../database/db.js";
 
 /**
- * consulta para obtener todos los productos
- * @returns query promesa de consulta con los prodcutos de la db
+ * Consulta para obtener todos los productos.
+ *
+ * @returns query promesa de consulta con array productos de la db, donde el primer elemento son todas las filas de productos. (segundo es fields, los campos)
  */
 export const selectAllProducts = () => {
     const sql = "SELECT * from productos";
     return connection.query(sql);
 }
-
 /**
- * consulta para obtener productos bajo condiciones segun parametro
- * @param {*} param0 parametros limit y offset para paginado, por defecto siendo limit=10 y offset=0 y pudiendo cambiarse luego. 
- * @returns retorna la query promesa con los productos segun la condiciones de busqueda pasada por parametro
+ * Consulta para obtener productos bajo condiciones de filtro, orden y paginación.
+ *
+ * @param {object} param0 Parámetros de consulta.
+ * @param {number} [param0.limit=10] Límite de productos por página.
+ * @param {number} [param0.offset=0] Desplazamiento para la paginación.
+ * @param {boolean} [param0.soloActivos=false] Filtra solo por productos activos.
+ * @param {string} [param0.categoria="todos"] Filtra por tipo de producto.
+ * @param {string} [param0.orderBy=""]  ordenar por.
+ * @returns query promesa con los productos segun la condiciones de busqueda pasada por parametro y el total de productos sin paginar (`total`).
  */
 export const selectProducts = async ({limit=10,offset=0,soloActivos=false,categoria="todos",orderBy=""}) => {
     let conditions = [];
@@ -44,34 +50,37 @@ export const selectProducts = async ({limit=10,offset=0,soloActivos=false,catego
     return { rows, total };
 };
 /**
- * consulta para obtener producto por Id.
- * @param {*} id 
- * @returns query promesa de consulta con el producto obtenido por id
+ * Consulta para obtener un producto específico por su Id.
+ *
+ * @param {number} id El ID del producto a buscar.
+ * @returns  query promesa de consulta con el producto obtenido por id contiene las filas del producto encontrado (o array vacío).
  */
 export const selectProductById = (id) => {
     const sql = `SELECT * from productos WHERE productos.id = ?`;
     return connection.query(sql,[id]);
 }
 /**
- * consulta para creacion de producto en db
- * @param {*} nombre 
- * @param {*} categoria 
- * @param {*} precio 
- * @param {*} imagen 
- * @returns query promesa objeto de resultado de la inserción en la Db
+ * Consulta para la creación de un nuevo producto en la DB.
+ *
+ * @param {string} nombre Nombre del producto.
+ * @param {string} categoria Categoría/tipo del producto.
+ * @param {number} precio Precio del producto.
+ * @param {string} imagen URL o ruta de la imagen.
+ * @returns query promesa objeto de resultado de la inserción en la Db.
  */
 export const insertProduct = (nombre,categoria,precio,imagen) => {
     let consulta = "INSERT INTO productos(nombre, tipo, precio, img_url) VALUES (?,?,?,?)"
     return connection.query(consulta, [nombre,categoria,precio,imagen])
 }
 /**
- * consulta para actualizar productos en la db
- * @param {*} activo 
- * @param {*} nombre 
- * @param {*} categoria 
- * @param {*} precio 
- * @param {*} imagen 
- * @param {*} id 
+ * Consulta para la actualización completa de un producto en la DB.
+ *
+ * @param {number} activo Estado activo (1) o inactivo (0).
+ * @param {string} nombre Nombre del producto.
+ * @param {string} categoria Categoría/tipo del producto.
+ * @param {number} precio Precio del producto.
+ * @param {string} imagen URL o ruta de la imagen.
+ * @param {number} id ID del producto a actualizar.
  * @returns query promesa objeto de resultado de la atualizacion del producto en la DB.
  */
 export const updateProduct = (activo,nombre,categoria,precio,imagen,id) => {
@@ -79,19 +88,21 @@ export const updateProduct = (activo,nombre,categoria,precio,imagen,id) => {
     return connection.query(consulta, [activo,nombre,categoria,precio,imagen,id])
 }
 /**
- * consulta para eliminar productos en la db
- * @param {*} id 
- * @returns query promesa con resultado de la eliminacion del producto de la db
+ * Consulta para eliminar un producto de la DB.
+ *
+ * @param {number} id El ID del producto a eliminar.
+ * @returns query promesa con resultado de la eliminacion del producto de la db.
  */
 export const deleteProduct = (id) => {
     let consulta = "delete from productos WHERE id = ?"
     return connection.query(consulta, [id])
 }
 /**
- * consulta para actualizar el estado de los productos , pasar de activo a inactivo y visceversa
- * @param {*} nuevoActivo 
- * @param {*} id 
- * @returns query promesa con resultado de actualizacion de estado de producto en db
+ * Consulta para actualizar solo el estado (activo/inactivo) de un producto.
+ *
+ * @param {number} nuevoActivo El nuevo estado (1 para activo, 0 para inactivo).
+ * @param {number} id ID del producto.
+ * @returns  query promesa con resultado de actualizacion de estado de producto en db.
  */
 export const updateProductStatus = (nuevoActivo,id) => {
     return connection.query(
