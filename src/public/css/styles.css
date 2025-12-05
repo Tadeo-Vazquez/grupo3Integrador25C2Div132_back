@@ -93,9 +93,7 @@ nav ul a:hover {
 }
 
 .card-producto:hover{
-    scale: 1.2;
-    background-color: rgba(30, 161, 255);
-
+    border-color: white;
 }
 
 /* Estilos "Consultar producto" */
